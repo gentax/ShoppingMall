@@ -1,0 +1,201 @@
+
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+	<meta charset="utf-8">  
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta name="description" content="">
+	<meta name="author" content="">
+	<link rel="icon" href="../../favicon.ico">
+	<title>Shopping Cart</title>
+	
+	<!-- Bootstrap core CSS -->
+	<link rel="stylesheet" href="css/bootstrap.min.css"/>
+	<link href="http://maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet">
+	<link href="https://fonts.googleapis.com/css?family=Open+Sans:800|Gentium+Basic:400" rel="stylesheet"/>
+	<link href="css/lightbox.css" rel="stylesheet">
+	<link href="css/dark.css" rel="stylesheet">
+	<!-- Custom styles for this template -->
+	<link rel="stylesheet"  href="css/style.css"/>
+	
+	<!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+	<!--[if lt IE 9]>
+		<script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+		<script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+	<![endif]-->
+
+	<!-- Template for the single picture box in home page -->
+	<script type="text/template" id="tmp-pictureItem">
+	<div class="shoppingListItemContent">
+		<a href="<%= image %>" data-toggle="lightbox">
+			<img src="<%= thumb %>" class="img-responsive" />
+		</a>
+		<!-- Button trigger modal -->
+		<div class="clearfix">
+			<div class="product-tags pull-left">
+				<span class="label label-danger"><%= photographer %></span>
+				<span class="label label-info"><%= tag %></span>
+			</div>
+			<div class="product-price pull-right">
+				<span class="price">€ <%= price.toFixed(2) %></span>
+			</div>
+		</div>
+		<div class="infos">
+			<h4 class="name text-info"><%= title %></h4>
+			<button id="addCart" class="btn btn-danger btn-sm"><i class="fa fa-shopping-cart"></i> Add to cart</button>
+			<button id="moreInfo" class="btn btn-primary btn-sm hidden-md"><i class="fa fa-info-circle"></i> More Info</button>
+		</div>
+	</div>
+	</script>
+
+	<!-- Template for the single picture box in detail view-->
+	<script type="text/template" id="tmp-details">
+	<div class="col-md-6">
+		<a href="<%= image %>" data-toggle="lightbox"><img src="<%= image %>" class="img-responsive"/></a>
+	</div>
+	<div class="col-md-6">
+		<div class="product-tags">
+			<span class="label label-danger"><%= photographer %></span>
+			<span class="label label-info"><%= tag %></span>
+		</div>
+		<h4><%= title %></h4>
+		<p class="description"><%= description %></p>
+		<div class="row">
+			<div class="col-sm-3">
+				<div class="product-price">€ <%= price.toFixed(2) %></div>
+			</div>
+			<div class="col-sm-6 col-md-offset-3">
+				<button id="cart" class="btn btn-lg btn-danger"><i class="fa fa-shopping-cart"></i> Add to cart</button>
+			</div>
+		</div>
+	</div>
+	<button id="back" class="btn btn-default"><i class="fa fa-chevron-left"></i> Back</button>
+	</script>
+
+	<!-- Template for the sshopping cart item-->
+	<script type="text/template" id="tmp-shoppingCartItem">
+		<td class="name"><i class="fa fa-times-circle"></i> <%= title %></td>
+		<td class="sub-total">€<%= total.toFixed(2) %></td>
+	</script>
+</head>
+
+<body>
+	<div class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+		<div class="container-fluid">
+			<div class="navbar-header">
+				<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target=".navbar-collapse">
+					<span class="sr-only">Toggle navigation</span>
+					<span class="icon-bar"></span>
+					<span class="icon-bar"></span>
+					<span class="icon-bar"></span>
+				</button>
+				<a class="navbar-brand" href="index.html"><div class="circular"></div> Photographer's shopping mall</a>
+			</div>
+			<div class="navbar-collapse collapse">
+				<h2 id="basket-message" class="text-right">You have <span id="basket">0</span> items in your basket</h2>
+			</div>
+		</div>
+	</div>
+
+	<div class="container-fluid">
+		<div class="row">
+
+			<div class="col-sm-9  col-md-10  main" id="main">
+				<div class="">
+					<div id="app"></div>
+				</div>
+	
+				<div class="row">
+					<ul id="default-item-list" class="col-md-12"></ul>
+				</div>
+	
+				<div class="row">
+					<div id="detail"></div>
+				</div>
+			</div>
+	
+	
+			<div class="col-sm-3 col-sm-offset-3 col-md-2 col-md-offset-2 sidebar" id="sidebar">
+				<table id="shopping-cart" class="table table-responsive">
+					<tbody id="shopping-list"></tbody>
+					<tfoot>
+						<tr>
+							<td colspan="4" id="total">€ 0.00</td>
+						</tr>
+					</tfoot>
+				</table>
+				<button class="btn btn-primary btn-lg" data-toggle="modal" data-target="#myModal" id="showForm">Check out</a>
+			</div>
+		</div>
+	 </div>
+	
+
+  <!-- Modal -->
+  <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" data-backdrop="static" 
+   data-keyboard="false">
+	<div class="modal-dialog">
+	  <div class="modal-content">
+		<div class="modal-header">
+		  
+		  <h4 class="modal-title" id="myModalLabel">Check them out</h4>
+		</div>
+		<div class="modal-body">
+			
+		  <form id="sendMail">
+			  <p>Please insert your personal data and we'll send you the availability of the selected photos</p>
+			<fieldset>
+			  <div class="row">
+				<div class="form-group col-sm-12">
+				  <label for="name">Your name:<span>*</span></label>
+				  <input type="text" class="form-control " placeholder="Your name:" id="name" required="">
+				  <div class="alert alert-danger">Name field is empty</div>
+				</div>
+			  </div>
+
+			  <div class="row">
+				<div class="form-group col-sm-12">
+				  <label for="email">Your email:<span>*</span></label>
+				  <input type="email" class="form-control " placeholder="Your email:" id="email" required="">
+				  <div class="alert alert-danger">Email field is empty or invalid</div>
+				</div>
+			  </div>
+
+			  <div class="row">
+				<div class="form-group col-sm-12">
+				  <label for="message">Your message:<span>*</span></label>
+				  <textarea class="form-control" placeholder="Your message:" id="message" required=""></textarea>
+				  <div class="alert alert-danger">Please leave a message</div>
+				  <span class="form-info"><span class="required">*</span> These fields are required</span>
+				</div>
+			  </div>
+			</fieldset>
+		  </form>
+		  
+		  <div id="thanks">
+		  	<h1>Thanks.</h1>
+		  	<p>We'll send you an acceptance email shortly.</p>
+		  	<a class="btn btn-default" onclick="location.reload();">Close</a>
+		  </div>
+		  
+		</div>
+		<div class="modal-footer">
+		  <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+		  <button type="button" class="btn btn-danger" id="sendMailButton">Check out!</button>
+		</div>
+	  </div>
+	</div>
+  </div>
+	<div class="footer">
+			<p class="text-muted">Photographer's Mall by <a href="http://www.gentax.it" rel="external">Paolo Genta</a>, an attempt to build a shopping cart in BackboneJS. <small>All images are taken from <a href="http://www.unsplash.com"><ins id="firstdiff"></ins>Unsplash</a></small>.</p>
+	</div>
+	
+  <script src="js/libs/jquery-min.js"></script>
+  <script src="js/libs/bootstrap-min.js"></script>
+
+  <script src="js/libs/underscore-min.js"></script>
+  <script src="js/libs/backbone-min.js"></script>
+  <script src="js/libs/lightbox.js"></script>
+  <script src="js/store.js"></script>
+  </body>
+</html>

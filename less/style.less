@@ -1,0 +1,291 @@
+html {
+  position: relative;
+  min-height: 100%;
+}
+
+/* Move down content because we have a fixed navbar that is 50px tall */
+body {
+	padding-top: 50px;
+	background: #F9F9F9;
+	/* Margin bottom by footer height */
+	margin-bottom: 60px;
+}
+
+.sub-header {
+	padding-bottom: 10px;
+	border-bottom: 1px solid #eee;
+}
+.navbar-fixed-top {
+	border: 0;
+	.navbar-brand{
+		padding:5px 15px;
+	}
+	.circular {
+		width: 40px;
+		height: 40px;
+		border-radius: 20px;
+		background: url(../img/me.png) no-repeat;
+		background-size: 40px 40px;
+		display: inline-block;
+		vertical-align: middle;
+	}
+}
+
+.footer {
+	position: absolute;
+	bottom: 0;
+	width: 100%;
+	/* Set the fixed height of the footer here */
+	height: 60px;
+	background-color: #f5f5f5;
+	font: 13px/16px 'Gentium Basic', serif;
+	
+	.text-muted {
+		margin: 20px;
+	}
+}
+
+/* Hide for mobile, show later */
+.sidebar {
+	background-color: #f5f5f5;
+	border-top: 1px solid #eee;
+}
+
+@media (min-width: 768px) {
+  .sidebar {
+    position: fixed;
+    top: 51px;
+    bottom: 0px;
+    right: 0;
+    z-index: 1000;
+    display: block;
+    padding: 20px;
+    overflow-x: hidden;
+    overflow-y: auto; /* Scrollable contents if viewport is shorter than content. */
+    background-color: #f5f5f5;
+    border-right: 1px solid #eee;
+  }
+}
+
+/* Sidebar navigation */
+.nav-sidebar {
+	margin-right: -21px; /* 20px padding + 1px border */
+	margin-bottom: 20px;
+	margin-left: -20px;
+	
+	li > a {
+	  padding-right: 20px;
+	  padding-left: 20px;
+	}
+	
+	> .active > a,
+	> .nav-sidebar > .active > a:hover,
+	> .nav-sidebar > .active > a:focus {
+		color: #fff;
+		background-color: #428bca;
+	}
+
+
+}
+
+/*
+ * Main content
+ */
+
+.main {
+	padding: 20px; 
+	
+	.page-header {
+		margin-top: 0;
+	}
+}
+
+#basket-message {
+	font-size:14px;
+	color:#e4e4e4;
+}
+
+#wrap {
+  position: relative;
+  width: 400px;
+  margin: 0 auto;
+}
+
+/* ITEMS LIST */
+
+#default-item-list {
+	list-style: none;
+	
+	
+	li .shoppingListItemContent{
+		background-color: #F9F9F9;
+		box-shadow: 0 1px 1px 0 rgba(0,0,0,0.1);
+		margin-bottom: 15px;
+		min-height: 390px;
+	}
+	.clearfix {
+		padding:15px;
+	}
+	a{
+		min-height: 235px;
+		max-height: 235px;
+		display: block;
+		overflow: hidden;
+		
+		img {
+			padding:15px;
+			margin-bottom:10px;
+		}
+	}
+	
+
+	.infos{
+		background:white;
+		padding:15px;
+		text-align:center;
+	}
+	.name {
+		margin: 0 0 7px;
+		font-weight: 600;
+		font-size: 22px;
+		line-height: 30px;
+		display:block;
+	}
+	
+	.price {
+		font-weight: bold;
+		font-size: 24px;
+		line-height:24px;
+		color: #C0392B;
+		margin: -8px 15px 0 0;
+	}
+
+}
+
+/* ITEM DETAIL */
+
+#detail{
+	position:relative;
+
+	h4{
+		margin: 20px 0;
+		font: 32px/40px 'Open Sans', sans-serif;
+	}
+	.description{
+		margin: 20px 0;
+		font: 16px/22px 'Gentium Basic', serif;
+		font-weight: 800;
+	}
+	p{ font-size: 14px; }
+	
+	.product-price{
+		margin: 0;
+		padding: 5px 10px;
+		background-color: #FFFFFF;
+		color: #C0392B;
+		text-align: left;
+		border: 2px dashed #E0E0E0;
+		font-size:22px;
+		text-align:center;
+		font-weight:bold;
+	}
+	
+	#back{
+		position:absolute;
+		top:0;right:15px;
+	}
+	.product-tags{
+		font: 20px/22px 'Gentium Basic', serif;
+	}
+	.shoppingListItemContent .product-tags{
+		font: 16px/20px 'Gentium Basic', serif;
+	}
+
+}
+
+
+table {
+	color: #444;
+	tbody {
+		tr {
+			height: 20px;
+		
+			&:last-child td {
+				border-bottom: none;
+			}
+		
+			&:hover {
+				background: #e9e9e9;
+			}
+		}
+		td {
+			width: 15px;
+			vertical-align: middle;
+			border-bottom: 1px solid #a7a7a7;
+			height: 50px;
+			
+			&.quantity-total {
+				width: 40px;
+				text-align: right;
+			}
+			
+			&.name {
+				width: 200px;
+				cursor:pointer;
+			}
+			
+			&.sub-total {
+				width: 60px;
+				text-align: right;
+			}
+
+
+
+		}
+		
+		&.empty td {
+			color: #ccc;
+			border: none;
+			text-align: center;
+		}
+		
+		&.empty tr:hover {
+			background: #fff;
+		}
+		
+		.quantity {
+			position: relative;
+			cursor: pointer;
+			height: 10px;
+			width: 10px;
+			left: 3px;
+			display: block;
+		}
+
+	
+		
+	}
+	
+	#total {
+		text-align: right;
+		height: 50px;
+		font-size: 20px;
+		border-top: 1px solid #000;
+		color: #000;
+	}
+
+}
+
+
+#myModal .modal-dialog .modal-content{
+	background: #F9F9F9;
+	
+	form#sendMail .alert{
+		display:none;
+		padding:5px 12px
+	}
+	
+	#thanks{display:none;}
+}
+
+
